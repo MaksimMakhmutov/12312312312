@@ -1,73 +1,35 @@
 {
   "products": [
     {
-      "name": "Товар 4",
-      "price": 400,
-      "image": "https://fastly.picsum.photos/id/634/200/300.jpg?hmac=dHnJDi4giQORL4vMes_SpKmSA_edpLoLAu-c-jsNFh8",
-      "id": "4"
-    },
-    {
-      "name": "Товар 322",
-      "price": 50,
-      "image": "https://fastly.picsum.photos/id/634/200/300.jpg?hmac=dHnJDi4giQORL4vMes_SpKmSA_edpLoLAu-c-jsNFh8",
-      "id": "5"
-    },
-    {
-      "name": "Я тупой",
-      "price": 3323232,
-      "image": "https://fastly.picsum.photos/id/634/200/300.jpg?hmac=dHnJDi4giQORL4vMes_SpKmSA_edpLoLAu-c-jsNFh8",
-      "id": "9dd3"
-    },
-    {
-      "name": "Телефон",
-      "price": 10000,
-      "image": "https://fastly.picsum.photos/id/634/200/300.jpg?hmac=dHnJDi4giQORL4vMes_SpKmSA_edpLoLAu-c-jsNFh8",
-      "id": "5032"
-    }
-  ],
-  "categories": [
-    {
-      "id": "1",
-      "name": "Категория 1"
-    },
-    {
-      "id": "2",
-      "name": "Категория 2"
-    },
-    {
-      "id": "3",
-      "name": "Категория 3"
+      "id": "8635",
+      "name": "Shorts",
+      "price": 300,
+      "image": "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"
     }
   ],
   "users": [
     {
-      "id": "1753703419389123",
-      "username": "admin",
+      "id": "1",
+      "email": "admin@mail.com",
       "password": "admin123",
       "role": "admin"
     },
     {
-      "id": "175370341938999",
-      "username": "user1",
+      "id": "2",
+      "email": "user@mail.com",
       "password": "user123",
       "role": "user"
     },
     {
-      "id": "175370341938932",
-      "username": "user2",
-      "password": "user456",
+      "id": "9830",
+      "email": "admin@example.com",
+      "password": "password",
       "role": "user"
     },
     {
-      "id": "1753703419389",
-      "username": "admin@example.com",
-      "password": "password",
-      "role": "admin"
-    },
-    {
-      "id": "1753703671549",
-      "username": "123123",
-      "password": "password",
+      "id": "ad16",
+      "email": "admin@mail.com",
+      "password": "admin123",
       "role": "user"
     }
   ]
