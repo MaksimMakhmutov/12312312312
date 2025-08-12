@@ -1,71 +1,98 @@
-import { useState, useEffect } from 'react';
-import { getProducts, addProduct } from '../api/productApi';
+import { useEffect, useState } from 'react';
+import { deleteProduct, getAllProducts } from '../api/productApi';
+import { getUsers, updateUserRole, deleteUser } from '../api/authApi';
+import { useAuth } from '../auth/AuthContext';
+import AdminProductForm from './AdminProductForm';
 
 const AdminPanel = () => {
+  const { user } = useAuth();
   const [products, setProducts] = useState([]);
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState('');
-  const [error, setError] = useState('');
-
+  const [users, setUsers] = useState([]);
   useEffect(() => {
-    fetchProducts();
+    loadProducts();
+    loadUsers();
   }, []);
 
-  const fetchProducts = async () => {
-    const data = await getProducts();
-    setProducts(data);
+  const loadProducts = async () => {
+    const allProducts = await getAllProducts();
+    setProducts(allProducts);
   };
 
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
-    if (!name.trim() || !price || Number(price) <= 0 || !image.trim()) {
-      setError('All fields are required and price must be positive.');
+  const loadUsers = async () => {
+    const data = await getUsers();
+    setUsers(data);
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Delete this product?')) {
+      await deleteProduct(id);
+      loadProducts();
+    }
+  };
+
+  const handleRoleChange = async (id, currentRole) => {
+    const newRole = currentRole === 'admin' ? 'user' : 'admin';
+    await updateUserRole(id, newRole);
+    loadUsers();
+  };
+
+  const handleDeleteUser = async (id) => {
+    if (id === user.id) {
+      alert("You can't delete yourself.");
       return;
     }
-    setError('');
-    const newProduct = { name, price: Number(price), image };
-    await addProduct(newProduct);
-    setName('');
-    setPrice('');
-    setImage('');
-    fetchProducts();
+    if (window.confirm('Delete this user?')) {
+      await deleteUser(id);
+      loadUsers();
+    }
   };
 
   return (
     <div>
       <h2>Admin Panel</h2>
-      <form onSubmit={handleAddProduct}>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Product Name"
-          required
-        />
-        <input
-          value={price}
-          type="number"
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Price"
-          required
-        />
-        <input
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
-          placeholder="Image URL"
-          required
-        />
-        <button type="submit">Add Product</button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </form>
+
+      <h3>Add Product</h3>
+      <AdminProductForm onProductAdded={loadProducts} />
+
+      <h3>Products</h3>
       <ul>
         {products.map((p) => (
           <li key={p.id}>
-            {p.name} - ${p.price}
+            {p.name} — ${p.price}
+            <button onClick={() => handleDelete(p.id)}>Delete</button>
           </li>
         ))}
       </ul>
+
+      <h3>Users</h3>
+      <table border="1" cellPadding="5">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Change Role</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((u) => (
+            <tr key={u.id}>
+              <td>{u.email}</td>
+              <td>{u.role}</td>
+              <td>
+                <button onClick={() => handleRoleChange(u.id, u.role)}>
+                  Set as {u.role === 'admin' ? 'User' : 'Admin'}
+                </button>
+              </td>
+              <td>
+                <button onClick={() => handleDeleteUser(u.id)}>Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
+
 export default AdminPanel;

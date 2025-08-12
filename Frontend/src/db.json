@@ -1,10 +1,95 @@
 {
   "products": [
     {
-      "id": "8635",
-      "name": "Shorts",
+      "id": "11de",
+      "name": "Test",
+      "category": "clothes",
+      "price": 1000,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "4add",
+      "name": "Test2",
+      "category": "clothes",
+      "price": 2000,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "66a8",
+      "name": "Test3",
+      "category": "clothes",
+      "price": 1000,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "1c64",
+      "name": "Test4",
+      "category": "clothes",
+      "price": 333,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "0379",
+      "name": "Test3",
+      "category": "clothes",
       "price": 300,
-      "image": "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "0bfc",
+      "name": "Test3",
+      "category": "clothes",
+      "price": 555,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "eda9",
+      "name": "Test7",
+      "category": "electronics",
+      "price": 666,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "0ddf",
+      "name": "123",
+      "category": "clothes",
+      "price": 123,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "6f7d",
+      "name": "321",
+      "category": "electronics",
+      "price": 321,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "88f1",
+      "name": "222",
+      "category": "clothes",
+      "price": 222,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "5c32",
+      "name": "444",
+      "category": "electronics",
+      "price": 444,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "7575",
+      "name": "666",
+      "category": "clothes",
+      "price": 666,
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "ce1d",
+      "name": "333",
+      "category": "electronics",
+      "price": 2221,
+      "image": "https://via.placeholder.com/150"
     }
   ],
   "users": [
@@ -19,18 +104,18 @@
       "email": "user@mail.com",
       "password": "user123",
       "role": "user"
+    }
+  ],
+  "carts": [
+    {
+      "id": "1",
+      "userId": 1,
+      "items": []
     },
     {
-      "id": "9830",
-      "email": "admin@example.com",
-      "password": "password",
-      "role": "user"
-    },
-    {
-      "id": "ad16",
-      "email": "admin@mail.com",
-      "password": "admin123",
-      "role": "user"
+      "id": "2",
+      "userId": 2,
+      "items": []
     }
   ]
 }

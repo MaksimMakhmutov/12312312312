@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { loginUser } from '../api/authApi';
+import { validateEmail } from '../utils/email';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +13,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateEmail(email)) {
+      alert('Invalid email format');
+      return;
+    }
+
     const user = await loginUser(email, password);
     if (user) {
       login(user);
@@ -45,4 +52,5 @@ const Login = () => {
     </form>
   );
 };
+
 export default Login;
