@@ -1,33 +1,43 @@
-import { Link } from 'react-router-dom';
-import { useAuth } from '../auth/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import styled from 'styled-components';
+
+const Bar = styled.nav`
+  display:flex; justify-content:space-between; align-items:center;
+  padding:12px 20px; background:#111827; color:#fff;
+  a{color:#fff; text-decoration:none; margin-right:12px;}
+  button{background:#2563eb; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;}
+  button:hover{opacity:.9;}
+`;
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const nav = useNavigate();
+  const doLogout = () => { logout(); nav('/login'); };
 
   return (
-    <nav
-      style={{
-        display: 'flex',
-        gap: '1rem',
-        padding: '1rem',
-        borderBottom: '1px solid gray',
-      }}
-    >
-      <Link to="/">Home</Link>
-      <Link to="/cart">Cart</Link>
-      {user ? (
-        <>
-          {user.role === 'admin' && <Link to="/admin">Admin</Link>}
-          <span>{user.email}</span>
-          <button onClick={logout}>Logout</button>
-        </>
-      ) : (
-        <>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </>
-      )}
-    </nav>
+    <Bar>
+      <div>
+        <Link to="/">Shop</Link>
+      </div>
+      <div>
+        <Link to="/">Products</Link>
+        {user && <Link to="/cart">Cart</Link>}
+        {user?.role === 'admin' && <Link to="/admin">Admin</Link>}
+        {!user ? (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
+        ) : (
+          <>
+            <span style={{marginRight:12}}>{user.email}</span>
+            <button onClick={doLogout}>Logout</button>
+          </>
+        )}
+      </div>
+    </Bar>
   );
 };
+
 export default Navbar;

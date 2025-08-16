@@ -1,9 +1,11 @@
-import { API_BASE_URL } from '../components/constants';
+import api from './axios';
 
-export const loginUser = async (email, password) => {
-  const res = await fetch(
-    `${API_BASE_URL}/users?email=${email}&password=${password}`
-  );
-  const users = await res.json();
-  return users.length > 0 ? users[0] : null;
+export const getAllUsers = async () => {
+  const { data } = await api.get('/users');
+  return data;
+};
+
+export const updateUserRole = async (id, role) => {
+  const { data } = await api.patch(`/users/${id}/role`, { role });
+  return data;
 };

@@ -1,57 +1,33 @@
-const API = 'http://localhost:3001/products';
+import api from './axios';
 
 export const getProducts = async ({
+  q = '',
+  category = '',
   page = 1,
   limit = 6,
-  sortBy = 'name',
-  order = 'asc',
-  category = '',
-  search = '',
-}) => {
-  let url = `${API}?_page=${page}&_limit=${limit}&_sort=${sortBy}&_order=${order}`;
-
-  if (category) {
-    url += `&category=${encodeURIComponent(category)}`;
-  }
-  if (search) {
-    url += `&q=${encodeURIComponent(search)}`;
-  }
-
-  const res = await fetch(url, {
-    headers: {
-      Accept: 'application/json',
-    },
+} = {}) => {
+  const { data } = await api.get('/products', {
+    params: { q, category, page, limit },
   });
-
-  // json-server отдаёт total только при _page и _limit
-  const total = parseInt(res.headers.get('X-Total-Count'), 10) || 0;
-  const data = await res.json();
-  console.log(total, 'Total');
-
-  return { data, total };
-};
-//для корзины
-export const getAllProducts = async () => {
-  const res = await fetch(`${API}`);
-  return await res.json();
-};
-
-export const deleteProduct = async (id) => {
-  await fetch(`${API}/${id}`, {
-    method: 'DELETE',
-  });
+  return data; // { data, total, page, limit }
 };
 
 export const getProductById = async (id) => {
-  const res = await fetch(`${API}/${id}`);
-  return await res.json();
+  const { data } = await api.get(`/products/${id}`);
+  return data;
 };
 
-export const addProduct = async (product) => {
-  const res = await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(product),
-  });
-  return await res.json();
+export const createProduct = async (payload) => {
+  const { data } = await api.post('/products', payload);
+  return data;
+};
+
+export const updateProduct = async (id, payload) => {
+  const { data } = await api.put(`/products/${id}`, payload);
+  return data;
+};
+
+export const deleteProduct = async (id) => {
+  const { data } = await api.delete(`/products/${id}`);
+  return data;
 };

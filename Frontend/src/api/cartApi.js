@@ -1,39 +1,26 @@
-const API = 'http://localhost:3001/carts';
+import api from './axios';
 
-export const getCartByUserId = async (userId) => {
-  const res = await fetch(`${API}?userId=${userId}`);
-  const data = await res.json();
-  return data[0] || { userId, items: [] };
+export const getCart = async () => {
+  const { data } = await api.get('/cart');
+  return data; // { userId, items: [...] }
 };
 
-export const getCart = async (userId, page = 1, limit = 6) => {
-  const res = await fetch(
-    `${API}?userId=${userId}&_page=${page}&_limit=${limit}`
-  );
-  const data = await res.json();
-  const total = res.headers.get('X-Total-Count');
-  return { data, total: Number(total) };
+export const addToCartApi = async (productId, quantity = 1) => {
+  const { data } = await api.post('/cart/add', { productId, quantity });
+  return data;
 };
 
-export const updateCart = async (userId, items) => {
-  const cart = await getCartByUserId(userId);
-  if (cart.id) {
-    const res = await fetch(`${API}/${cart.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...cart, items }),
-    });
-    return res.json();
-  } else {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, items }),
-    });
-    return res.json();
-  }
+export const updateCartItemApi = async (productId, quantity) => {
+  const { data } = await api.patch(`/cart/item/${productId}`, { quantity });
+  return data;
 };
 
-export const clearCart = async (userId) => {
-  return await updateCart(userId, []);
+export const removeCartItemApi = async (productId) => {
+  const { data } = await api.delete(`/cart/item/${productId}`);
+  return data;
+};
+
+export const clearCartApi = async () => {
+  const { data } = await api.delete('/cart/clear');
+  return data;
 };

@@ -1,46 +1,39 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AuthProvider } from './auth/AuthContext';
-import { CartProvider } from './cart/CartContext';
-import Login from './auth/Login';
-import Register from './auth/Register';
-import ProductList from './products/ProductList';
-import CartPage from './cart/CartPage';
-import AdminPanel from './admin/AdminPanel';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import PrivateRoute from './components/PrivateRoute';
-import ProductDetails from './products/ProductDetails';
+import ProductList from './components/ProductList';
+import ProductDetail from './components/ProductDetail';
+import Cart from './components/Cart';
+import Login from './components/Login';
+import Register from './components/Register';
+import AdminPanel from './components/AdminPanel';
+import { useAuth } from './contexts/AuthContext';
 
-const App = () => {
-  return (
-    <Router>
-      <AuthProvider>
-        <CartProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<ProductList />} />
-            <Route path="/products/:id" element={<ProductDetails />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/cart"
-              element={
-                <PrivateRoute>
-                  <CartPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/admin"
-              element={
-                <PrivateRoute requiredRole="admin">
-                  <AdminPanel />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-        </CartProvider>
-      </AuthProvider>
-    </Router>
-  );
+const AdminRoute = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.role !== 'admin') return <Navigate to="/" replace />;
+  return children;
 };
+
+const App = () => (
+  <>
+    <Navbar />
+    <Routes>
+      <Route path="/" element={<ProductList />} />
+      <Route path="/products/:id" element={<ProductDetail />} />
+      <Route path="/cart" element={<Cart />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminPanel />
+          </AdminRoute>
+        }
+      />
+    </Routes>
+  </>
+);
+
 export default App;
